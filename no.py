@@ -1,8 +1,9 @@
-import os, shutil
+import os
 
-j = 0
-counter = 0
-collectionx = []
+count = 0
+collection_xml = []
+collection_png = []
+collection= []
 source = (
     r"C:/Users/alric/Downloads/New folder (2)/License-20220325T124014Z-001/License/"
 )
@@ -16,20 +17,28 @@ def splite_filename(file):
     return filename
 
 
-def identify(i, filename):
-    global counter
-    file = len(filename[1:])
-    for j in range(1, file):
-        spliteFile1 = splite_filename(filename[i])
-        spliteFile2 = splite_filename(filename[j])
-        if spliteFile1[0] == spliteFile2[0] and (
-            spliteFile1[2] == "png" or spliteFile2[2] == "xml"
-        ):
-            counter = counter + 1
-            # print (filename[i], "\n", filename[j])
-            return
-    collectionx.append(filename[i])
+def xml_files(filename):
+    for x in filename:
+        splite=splite_filename(x)
+        if splite[2]=="png":
+            collection_png.append(x)
+        elif splite[2]=="xml":
+            collection_xml.append(x)
+    print('Done')
 
+def binding():
+    for x in collection_png:
+        splite_png=splite_filename(x)
+        for y in collection_xml:
+            splite_xml=splite_filename(y)
+            if (splite_png[0:2]==splite_xml[0:2]):
+                collection.append(x)
+                collection.append(y)
+
+def move():
+    global count
+    for f in collection:
+        os.rename(source + f, destination + f)
 
 def get_filepaths(directory):
     """
@@ -53,9 +62,11 @@ def get_filepaths(directory):
 full_file_paths = get_filepaths(
     r"C:\Users\alric\Downloads\New folder (2)\License-20220325T124014Z-001\License"
 )
-while j < len(full_file_paths):
-    identify(j, full_file_paths)
-    j = j + 1
-for f in collectionx:
-    print(f)
-print(counter)
+xml_files(full_file_paths)
+binding()
+move()
+for x in collection:
+    print(x)
+print(len(collection_xml))
+print(len(collection_png))
+print(len(collection))

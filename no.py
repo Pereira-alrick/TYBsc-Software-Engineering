@@ -11,12 +11,14 @@ destination = (
     r"C:/Users/alric/Downloads/New folder (2)/License-20220325T124014Z-001/extra/"
 )
 
-
+#Takes the filename and splites the filename at "." and returns them in form of list.
 def splite_filename(file):
     filename = file.split(".")
     return filename
 
-
+"""Takes the splited filename and classifies them into png and xml, 
+hence appending the filename and the image in their respective
+collections."""
 def xml_files(filename):
     for x in filename:
         splite=splite_filename(x)
@@ -26,6 +28,7 @@ def xml_files(filename):
             collection_xml.append(x)
     print('Done')
 
+#Appending the common png and xml into a collection by checking for common filename.
 def binding():
     for x in collection_png:
         splite_png=splite_filename(x)
@@ -35,6 +38,7 @@ def binding():
                 collection.append(x)
                 collection.append(y)
 
+#Moving files from source to destination.
 def move():
     global count
     for f in collection:
